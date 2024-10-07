@@ -10,7 +10,7 @@ const port = process.env.PORT;
 dbConnect();
 app.use(express.json());
 //routes
-// app.use("/api/users", userRoutes);
+app.use("/api/users", userRoutes);
 //Gestion des erreurs
 app.use(notFound);
 app.use(globalErrHandler);
