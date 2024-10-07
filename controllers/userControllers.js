@@ -14,7 +14,7 @@ async function getAllUser(req, res) {
       users,
     });
   } catch (error) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ message: error.message });
   }
 }
 // async function getOneUser(req, res) {
