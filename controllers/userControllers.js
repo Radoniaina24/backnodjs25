@@ -7,6 +7,17 @@ async function getUserProfile(req, res) {
     message: "welcome to the profile page",
   });
 }
+async function getAllUser(req, res) {
+  const users = await User.find();
+  const totale = await User.countDocuments();
+  res.status(200).json({
+    status: "success",
+    message: "Users fetched successfully",
+    totale,
+    results: users.length,
+    users,
+  });
+}
 async function getOneUser(req, res) {
   const uid = req.params.uid;
   let user;
@@ -44,22 +55,13 @@ async function postUser(req, res) {
     throw new Error(err.message);
   }
 }
-async function deleteUser(req, res) {
-  const uid = req.params.uid;
-  try {
-    await User.deleteOne({ _id: uid });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-  res.status(200).json({ message: "success" });
-}
 async function updateUser(req, res) {
   const uid = req.params.uid;
-  const { name, email } = req.body;
+  const { fullname, email } = req.body;
 
   const query = { _id: uid };
   try {
-    await User.findOneAndUpdate(query, { name, email });
+    await User.findOneAndUpdate(query, { fullname, email });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -116,8 +118,18 @@ async function updateShippingAddress(req, res) {
     user,
   });
 }
+async function deleteUser(req, res) {
+  const uid = req.params.uid;
+  try {
+    await User.deleteOne({ _id: uid });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+  res.status(200).json({ message: "success" });
+}
 
 module.exports = {
+  getAllUser,
   getUserProfile,
   postUser,
   getOneUser,

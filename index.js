@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-app.use(cors);
+app.use(cors());
 require("dotenv").config();
 const dbConnect = require("./config/dbConnect");
 const userRoutes = require("./routes/userRoutes");
@@ -14,6 +14,6 @@ app.use("/api/users", userRoutes);
 //Gestion des erreurs
 app.use(notFound);
 app.use(globalErrHandler);
-// app.listen(port, () => {
-//   console.log(`app listening on port ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`app listening on port ${port}`);
+});
