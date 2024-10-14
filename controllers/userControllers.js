@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const generateToken = require("../utils/generateToken");
+const { generateToken } = require("../utils/generateToken");
 
 async function getAllUser(req, res) {
   try {
@@ -71,11 +71,12 @@ async function loginUser(req, res) {
   const userFound = await User.findOne({ email });
 
   if (userFound && (await bcrypt.compare(password, userFound?.password))) {
+    const token = generateToken(userFound?._id);
     res.json({
       status: "success",
       message: "User logged in successfully",
       userFound,
-      token: generateToken(userFound?._id),
+      token,
     });
   } else {
     throw new Error("Invalid login credentials");
